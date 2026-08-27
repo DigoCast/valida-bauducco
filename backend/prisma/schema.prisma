@@ -1,0 +1,84 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  OPERATOR
+  ADMIN
+}
+
+enum StatusLote {
+  ativo
+  vendido
+  descartado
+}
+
+model Loja {
+  id        String    @id @default(uuid())
+  nome      String
+  cnpj      String?   @unique
+  criadoEm  DateTime  @default(now()) @map("criado_em")
+
+  usuarios  Usuario[]
+  produtos  Produto[]
+
+  @@map("lojas")
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  lojaId    String?  @map("loja_id")
+  nome      String
+  email     String   @unique
+  senhaHash String   @map("senha_hash")
+  role      Role     @default(OPERATOR)
+  criadoEm  DateTime @default(now()) @map("criado_em")
+
+  loja      Loja?    @relation(fields: [lojaId], references: [id], onDelete: SetNull)
+
+  @@map("usuarios")
+}
+
+model Produto {
+  id           String   @id @default(uuid())
+  lojaId       String?  @map("loja_id")
+  codigoBarras String   @unique @map("codigo_barras")
+  nome         String
+  categoria    String?
+  criadoEm     DateTime @default(now()) @map("criado_em")
+  atualizadoEm DateTime @updatedAt @map("atualizado_em")
+
+  loja         Loja?    @relation(fields: [lojaId], references: [id], onDelete: Cascade)
+  lotes        Lote[]
+
+  @@map("produtos")
+}
+
+model Lote {
+  id           String     @id @default(uuid())
+  produtoId    String     @map("produto_id")
+  numeroLote   String?    @map("numero_lote")
+  dataValidade DateTime   @map("data_validade") @db.Date
+  quantidade   Int        @default(1)
+  status       StatusLote @default(ativo)
+  criadoEm     DateTime   @default(now()) @map("criado_em")
+  atualizadoEm DateTime   @updatedAt @map("atualizado_em")
+
+  produto      Produto    @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+
+  @@index([dataValidade, status])
+  @@map("lotes")
+}
+
+model DispositivoToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  criadoEm  DateTime @default(now()) @map("criado_em")
+
+  @@map("dispositivos_tokens")
+}
