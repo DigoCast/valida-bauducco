@@ -1,0 +1,44 @@
+{
+  "expo": {
+    "name": "ValidaBauducco",
+    "slug": "valida-bauducco",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "validabauducco",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#3D1E10"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSCameraUsageDescription": "O ValidaBauducco precisa de acesso à câmera para escanear códigos de barras de produtos."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#3D1E10",
+        "foregroundImage": "./assets/android-icon-foreground.png"
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.VIBRATE",
+        "android.permission.RECEIVE_BOOT_COMPLETED"
+      ]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "O ValidaBauducco precisa de acesso à câmera para escanear códigos de barras de produtos."
+        }
+      ]
+    ],
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
+    }
+  }
+}
