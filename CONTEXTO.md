@@ -210,3 +210,11 @@ model DispositivoToken {
   - [x] 9.9: Modal de Ação Rápida de Baixa de Estoque (Vendido / Descartado) e Exclusão Definitiva
   - [x] 9.10: Alinhamento para Expo SDK 54, Área Segura em todas as telas e 18/18 checks no expo-doctor
 - [x] **Etapa 10: Documentação Completa do Projeto (README raiz, backend/README e mobile/README)**
+- [x] **Etapa 11: Preparação de Deploy do Backend em Nuvem e Build do APK Android (EAS Build)**
+  - [x] 11.1: Ajuste dos scripts de build e start no `backend/package.json` (`prisma generate && tsup`, execução de `dist/server.cjs`)
+  - [x] 11.2: Criação do arquivo de Blueprint `render.yaml` para deploy automatizado do backend no Render
+  - [x] 11.3: Configuração do identificador de pacote nativo (`com.fatec.validabauducco`) e `versionCode` no `mobile/app.json`
+  - [x] 11.4: Criação do arquivo de configuração do EAS Build `mobile/eas.json` com perfil `preview` para geração direta de `.apk`
+  - [x] 11.5: Suporte a `EXPO_PUBLIC_API_URL` com fallback inteligente no client Axios `mobile/src/services/api.ts`
+  - [x] 11.6: Validação de integridade do projeto mobile via `expo-doctor` (18/18 checks aprovados) e testes do backend (29/29 testes passando)
+

@@ -17,6 +17,8 @@
       }
     },
     "android": {
+      "package": "com.fatec.validabauducco",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#3D1E10",
         "foregroundImage": "./assets/android-icon-foreground.png"

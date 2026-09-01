@@ -123,3 +123,22 @@ Para rodar em modo watch contínuo:
 ```bash
 npm run test:watch
 ```
+
+---
+
+## ☁️ Deploy do Backend em Produção (Render / Railway)
+
+### Opção 1: Render.com (Recomendado — Gratuito)
+1. Acesse [render.com](https://render.com) e conecte sua conta do GitHub.
+2. Crie um novo **Web Service** apontando para este repositório.
+3. Defina as seguintes configurações:
+   * **Root Directory:** `backend`
+   * **Build Command:** `npm install && npm run build`
+   * **Start Command:** `npm start`
+4. Adicione as **Environment Variables**:
+   * `NODE_ENV`: `production`
+   * `DATABASE_URL`: `sua_url_neon`
+   * `JWT_SECRET`: `sua_chave_jwt`
+   * `TZ`: `America/Sao_Paulo`
+5. Clique em **Create Web Service**. A API estará no ar com HTTPS automático e endpoint Swagger em `/docs`!
+

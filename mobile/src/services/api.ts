@@ -7,6 +7,11 @@ import { Platform } from "react-native";
  * Obtém dinamicamente o IP da máquina local no Expo Go ou usa fallback para emuladores
  */
 function getBaseUrl(): string {
+  // 1. Variável de ambiente configurada para produção/staging (ex: Render, Railway)
+  if (process.env.EXPO_PUBLIC_API_URL) {
+    return process.env.EXPO_PUBLIC_API_URL;
+  }
+
   const hostUri = Constants.expoConfig?.hostUri;
 
   if (hostUri) {

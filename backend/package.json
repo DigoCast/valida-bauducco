@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "type": "module",
   "description": "API REST para controle de validade e lotes - ValidaBauducco",
-  "main": "dist/server.js",
+  "main": "dist/server.cjs",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsup src --out-dir dist",
-    "start": "node dist/server.js",
+    "build": "prisma generate && tsup src --out-dir dist",
+    "start": "node dist/server.cjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio"
   },
   "keywords": [

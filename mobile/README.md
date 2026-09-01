@@ -84,3 +84,27 @@ O aplicativo utiliza `react-native-safe-area-context` para garantir que o cabeç
 
 4. **No Emulador Android Studio:**
    * Pressione a tecla **`a`** no terminal.
+
+---
+
+## 📦 Como Gerar o APK Autônomo (EAS Build)
+
+Para gerar o arquivo instalável `.apk` diretamente na nuvem do Expo:
+
+1. **Instale e autentique no EAS CLI:**
+   ```bash
+   npx eas-cli login
+   ```
+
+2. **Configure a URL de Produção da API (opcional):**
+   Crie o arquivo `mobile/.env` com a URL do seu backend hospedado:
+   ```env
+   EXPO_PUBLIC_API_URL=https://sua-api.onrender.com
+   ```
+
+3. **Dispare a compilação do APK na nuvem:**
+   ```bash
+   npx eas-cli build -p android --profile preview
+   ```
+   * O Expo compilará o aplicativo e fornecerá um **QR Code e Link Direto** para baixar e instalar o APK em qualquer celular Android.
+
