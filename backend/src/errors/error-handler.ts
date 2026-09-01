@@ -34,6 +34,15 @@ export function errorHandler(
   }
 
   // 3. Erros conhecidos do Prisma
+  if (error instanceof Prisma.PrismaClientInitializationError) {
+    console.error("❌ [Prisma] Erro de inicialização/conexão com o banco:", error.message);
+    return reply.status(500).send({
+      statusCode: 500,
+      error: "Erro de Banco de Dados",
+      message: "Falha na conexão com o banco de dados. Verifique as credenciais DATABASE_URL.",
+    });
+  }
+
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === "P2002") {
       const target = (error.meta?.target as string[])?.join(", ") || "campo";
@@ -71,13 +80,11 @@ export function errorHandler(
   }
 
   // 5. Erro interno não tratado (500)
-  if (env.NODE_ENV !== "production") {
-    console.error("❌ Erro não tratado:", error);
-  }
+  console.error("❌ Erro não tratado no servidor:", error);
 
   return reply.status(500).send({
     statusCode: 500,
     error: "Erro Interno do Servidor",
-    message: "Ocorreu um erro inesperado no servidor.",
+    message: error.message || "Ocorreu um erro inesperado no servidor.",
   });
 }

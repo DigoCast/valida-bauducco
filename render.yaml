@@ -12,7 +12,7 @@ services:
       - key: HOST
         value: 0.0.0.0
       - key: DATABASE_URL
-        sync: false
+        value: postgresql://neondb_owner:npg_g0hKk9cZlGvo@ep-still-brook-acgkffls-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require
       - key: JWT_SECRET
         value: valida_bauducco_secret_jwt_token_2026_seguro_fatec
       - key: TZ
