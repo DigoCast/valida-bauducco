@@ -12,8 +12,8 @@ services:
       - key: HOST
         value: 0.0.0.0
       - key: DATABASE_URL
-        value: postgresql://neondb_owner:npg_CFSWsJ8Qxj1O@ep-still-brook-acgkffls-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&connect_timeout=30
+        sync: false
       - key: JWT_SECRET
-        value: valida_bauducco_secret_jwt_token_2026_seguro_fatec
+        sync: false
       - key: TZ
         value: America/Sao_Paulo

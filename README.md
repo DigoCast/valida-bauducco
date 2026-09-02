@@ -181,8 +181,8 @@ valida-bauducco/
    NODE_ENV="development"
    PORT=3333
    HOST="0.0.0.0"
-   DATABASE_URL="postgresql://neondb_owner:npg_g0hKk9cZlGvo@ep-still-brook-acgkffls-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require"
-   JWT_SECRET="valida_bauducco_secret_jwt_token_2026_seguro_fatec"
+   DATABASE_URL="postgresql://usuario:senha@ep-exemplo.sa-east-1.aws.neon.tech/neondb?sslmode=require"
+   JWT_SECRET="sua_chave_secreta_jwt_minimo_10_caracteres"
    TZ="America/Sao_Paulo"
    ```
 
