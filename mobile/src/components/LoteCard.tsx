@@ -1,4 +1,4 @@
-import React from "react";
+﻿import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Lote } from "@/types/index";
@@ -44,24 +44,8 @@ export const LoteCard: React.FC<LoteCardProps> = ({
       activeOpacity={0.8}
       onPress={onPress}
     >
-      <View style={styles.headerRow}>
-        <View style={styles.productInfo}>
-          <Text
-            style={styles.productName}
-            numberOfLines={2}
-            maxFontSizeMultiplier={1.25}
-          >
-            {lote.produto?.nome || "Produto Bauducco"}
-          </Text>
-          <Text
-            style={styles.barcodeText}
-            numberOfLines={1}
-            maxFontSizeMultiplier={1.2}
-          >
-            EAN: {lote.produto?.codigoBarras || "—"}
-          </Text>
-        </View>
-
+      {/* 1. Barra Superior: Badge de Criticidade e EAN */}
+      <View style={styles.topStatusRow}>
         <View
           style={[
             styles.badge,
@@ -75,18 +59,33 @@ export const LoteCard: React.FC<LoteCardProps> = ({
             {lote.descricaoStatus}
           </Text>
         </View>
+
+        <Text
+          style={styles.barcodeText}
+          numberOfLines={1}
+          maxFontSizeMultiplier={1.2}
+        >
+          EAN: {lote.produto?.codigoBarras || "—"}
+        </Text>
       </View>
+
+      {/* 2. Nome do Produto em 100% da Largura do Card */}
+      <Text
+        style={styles.productName}
+        maxFontSizeMultiplier={1.25}
+      >
+        {lote.produto?.nome || "Produto Bauducco"}
+      </Text>
 
       <View style={styles.divider} />
 
+      {/* 3. Rodapé: Informações de Validade, Quantidade e Botões de Ação */}
       <View style={styles.footerRow}>
         <View style={styles.detailsCol}>
           <View style={styles.detailItem}>
             <Calendar size={14} color={Colors.textMuted} />
             <Text
               style={styles.detailText}
-              numberOfLines={1}
-              ellipsizeMode="tail"
               maxFontSizeMultiplier={1.2}
             >
               Validade: <Text style={styles.boldText}>{lote.dataFormatada}</Text>
@@ -97,7 +96,6 @@ export const LoteCard: React.FC<LoteCardProps> = ({
             <PackageCheck size={14} color={Colors.textMuted} />
             <Text
               style={styles.detailText}
-              numberOfLines={2}
               maxFontSizeMultiplier={1.2}
             >
               Qtd: <Text style={styles.boldText}>{lote.quantidade} un</Text>
@@ -152,38 +150,36 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 2,
   },
-  headerRow: {
+  topStatusRow: {
     flexDirection: "row",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "space-between",
+    flexWrap: "wrap",
     gap: 8,
-  },
-  productInfo: {
-    flex: 1,
-  },
-  productName: {
-    fontSize: 16,
-    fontWeight: "700",
-    color: Colors.secondary,
-    lineHeight: 22,
-  },
-  barcodeText: {
-    fontSize: 12,
-    color: Colors.textMuted,
-    marginTop: 2,
-    fontWeight: "500",
+    marginBottom: 8,
   },
   badge: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
     borderWidth: 1,
-    flexShrink: 0,
     alignSelf: "flex-start",
   },
   badgeText: {
     fontSize: 11,
     fontWeight: "800",
+  },
+  barcodeText: {
+    fontSize: 12,
+    color: Colors.textMuted,
+    fontWeight: "600",
+  },
+  productName: {
+    fontSize: 17,
+    fontWeight: "800",
+    color: Colors.secondary,
+    lineHeight: 24,
+    width: "100%",
   },
   divider: {
     height: 1,
@@ -195,7 +191,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexWrap: "wrap",
-    gap: 8,
+    gap: 10,
   },
   detailsCol: {
     flex: 1,
@@ -205,13 +201,12 @@ const styles = StyleSheet.create({
   detailItem: {
     flexDirection: "row",
     alignItems: "center",
-    overflow: "hidden",
+    flexWrap: "wrap",
+    gap: 4,
   },
   detailText: {
     fontSize: 13,
     color: Colors.textMuted,
-    marginLeft: 6,
-    flex: 1,
     flexShrink: 1,
   },
   boldText: {

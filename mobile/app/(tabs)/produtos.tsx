@@ -68,7 +68,6 @@ export default function ProdutosScreen() {
           <View style={styles.titleCol}>
             <Text
               style={styles.nomeProduto}
-              numberOfLines={2}
               maxFontSizeMultiplier={1.25}
             >
               {item.nome}
@@ -81,7 +80,7 @@ export default function ProdutosScreen() {
               EAN: {item.codigoBarras}
             </Text>
           </View>
-          <ChevronRight size={20} color={Colors.textMuted} />
+          <ChevronRight size={20} color={Colors.textMuted} style={{ marginTop: 2 }} />
         </View>
 
         <View style={styles.divider} />
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
   },
   cardHeader: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "space-between",
   },
   titleCol: {
@@ -209,9 +208,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   nomeProduto: {
-    fontSize: 16,
-    fontWeight: "700",
+    fontSize: 17,
+    fontWeight: "800",
     color: Colors.secondary,
+    lineHeight: 24,
   },
   codigoBarras: {
     fontSize: 12,
