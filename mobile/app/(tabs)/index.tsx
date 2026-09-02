@@ -283,7 +283,14 @@ export default function DashboardScreen() {
                 lote={lote}
                 onPress={() =>
                   lote.produto?.id &&
-                  router.push(`/produto/${lote.produto.id}` as any)
+                  router.push({
+                    pathname: `/produto/${lote.produto.id}`,
+                    params: {
+                      initialNome: lote.produto.nome,
+                      initialCodigo: lote.produto.codigoBarras,
+                      initialCategoria: lote.produto.categoria || "",
+                    },
+                  } as any)
                 }
                 onBaixaPress={() => handleOpenBaixa(lote)}
                 onDeletePress={() => handleDeleteLote(lote)}

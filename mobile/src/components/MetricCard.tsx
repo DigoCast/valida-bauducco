@@ -50,6 +50,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
             styles.countText,
             { color: isSelected ? "#FFFFFF" : theme.color },
           ]}
+          maxFontSizeMultiplier={1.25}
         >
           {count}
         </Text>
@@ -60,6 +61,7 @@ export const MetricCard: React.FC<MetricCardProps> = ({
           { color: isSelected ? "#FFFFFF" : Colors.secondary },
         ]}
         numberOfLines={2}
+        maxFontSizeMultiplier={1.2}
       >
         {label}
       </Text>
@@ -69,8 +71,8 @@ export const MetricCard: React.FC<MetricCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    width: 110,
-    height: 100,
+    minWidth: 116,
+    minHeight: 104,
     borderRadius: 16,
     padding: 12,
     marginRight: 10,
@@ -85,6 +87,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginBottom: 8,
   },
   iconContainer: {
     width: 32,
@@ -96,9 +99,11 @@ const styles = StyleSheet.create({
   countText: {
     fontSize: 20,
     fontWeight: "800",
+    marginLeft: 6,
   },
   labelText: {
     fontSize: 12,
     fontWeight: "700",
+    lineHeight: 16,
   },
 });

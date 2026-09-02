@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+﻿import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -13,6 +13,7 @@ import { Colors } from "@/constants/colors";
 import { LoteCard } from "@/components/LoteCard";
 import { BaixaModal } from "@/components/BaixaModal";
 import { NovoLoteModal } from "@/components/NovoLoteModal";
+import { EditarProdutoModal } from "@/components/EditarProdutoModal";
 import { CustomButton } from "@/components/CustomButton";
 import { getProdutoById } from "@/services/produtos";
 import { createLote, darBaixaLote, deleteLote } from "@/services/lotes";
@@ -21,6 +22,7 @@ import { Lote, Produto } from "@/types/index";
 import {
   ArrowLeft,
   Barcode,
+  Edit3,
   Layers,
   Package,
   Plus,
@@ -30,32 +32,60 @@ import * as Haptics from "expo-haptics";
 
 export default function ProdutoDetalhesScreen() {
   const router = useRouter();
-  const { id } = useLocalSearchParams<{ id: string }>();
+  const { id, initialNome, initialCodigo, initialCategoria } = useLocalSearchParams<{
+    id: string;
+    initialNome?: string;
+    initialCodigo?: string;
+    initialCategoria?: string;
+  }>();
 
-  const [produto, setProduto] = useState<Produto | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Inicialização instantânea caso venha com parâmetros da lista
+  const [produto, setProduto] = useState<Produto | null>(() => {
+    if (initialNome && id) {
+      return {
+        id,
+        nome: initialNome,
+        codigoBarras: initialCodigo || "",
+        categoria: initialCategoria || null,
+        criadoEm: "",
+        atualizadoEm: "",
+        lotes: [],
+      };
+    }
+    return null;
+  });
+
+  const [loading, setLoading] = useState(!initialNome);
+  const [refreshingLots, setRefreshingLots] = useState(false);
 
   // Modais
   const [novoLoteVisible, setNovoLoteVisible] = useState(false);
   const [baixaModalVisible, setBaixaModalVisible] = useState(false);
+  const [editarProdutoVisible, setEditarProdutoVisible] = useState(false);
   const [loteParaBaixa, setLoteParaBaixa] = useState<Lote | null>(null);
 
-  const fetchProduto = useCallback(async () => {
+  const fetchProduto = useCallback(async (isSilent = false) => {
     if (!id) return;
+    if (!isSilent && !produto) setLoading(true);
+    setRefreshingLots(true);
+
     try {
       const data = await getProdutoById(id);
       setProduto(data);
     } catch (error) {
       console.error("Erro ao carregar produto:", error);
-      Alert.alert("Erro", "Não foi possível carregar os detalhes do produto.");
+      if (!produto) {
+        Alert.alert("Erro", "Não foi possível carregar os detalhes do produto.");
+      }
     } finally {
       setLoading(false);
+      setRefreshingLots(false);
     }
-  }, [id]);
+  }, [id, produto]);
 
   useEffect(() => {
-    fetchProduto();
-  }, [fetchProduto]);
+    fetchProduto(Boolean(initialNome));
+  }, [id]);
 
   const handleOpenBaixa = (lote: Lote) => {
     setLoteParaBaixa(lote);
@@ -74,7 +104,7 @@ export default function ProdutoDetalhesScreen() {
           lotes: prev.lotes.filter((l) => l.id !== loteParaBaixa.id),
         };
       });
-      await fetchProduto();
+      await fetchProduto(true);
     } catch (error: any) {
       Alert.alert(
         "Erro",
@@ -104,7 +134,7 @@ export default function ProdutoDetalhesScreen() {
                   lotes: prev.lotes.filter((l) => l.id !== lote.id),
                 };
               });
-              await fetchProduto();
+              await fetchProduto(true);
             } catch (error: any) {
               Alert.alert(
                 "Erro",
@@ -124,16 +154,18 @@ export default function ProdutoDetalhesScreen() {
     quantidade: number;
   }) => {
     await createLote(data);
-    fetchProduto();
+    fetchProduto(true);
   };
 
-  if (loading || !produto) {
+  if (loading && !produto) {
     return (
       <View style={styles.centerContainer}>
         <ActivityIndicator size="large" color={Colors.primary} />
       </View>
     );
   }
+
+  if (!produto) return null;
 
   const lotesAtivos = (produto.lotes || []).filter((l) => l.status === "ativo");
   const totalEstoque = lotesAtivos.reduce((acc, l) => acc + l.quantidade, 0);
@@ -146,14 +178,24 @@ export default function ProdutoDetalhesScreen() {
       {/* Header Superior */}
       <View style={[styles.header, { paddingTop: topPadding }]}>
         <TouchableOpacity
-          style={styles.backBtn}
+          style={styles.headerBtn}
           onPress={() => router.back()}
           activeOpacity={0.7}
         >
           <ArrowLeft size={22} color="#FFFFFF" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Detalhes do Produto</Text>
-        <View style={{ width: 40 }} />
+
+        <Text style={styles.headerTitle} maxFontSizeMultiplier={1.25} numberOfLines={1}>
+          Detalhes do Produto
+        </Text>
+
+        <TouchableOpacity
+          style={styles.headerBtn}
+          onPress={() => setEditarProdutoVisible(true)}
+          activeOpacity={0.7}
+        >
+          <Edit3 size={18} color="#FFFFFF" />
+        </TouchableOpacity>
       </View>
 
       <ScrollView style={styles.content} contentContainerStyle={styles.scrollContent}>
@@ -162,30 +204,55 @@ export default function ProdutoDetalhesScreen() {
           <View style={styles.badgeRow}>
             <View style={styles.eanBadge}>
               <Barcode size={14} color={Colors.primaryDark} />
-              <Text style={styles.eanBadgeText}>{produto.codigoBarras}</Text>
+              <Text style={styles.eanBadgeText} maxFontSizeMultiplier={1.2}>
+                {produto.codigoBarras}
+              </Text>
             </View>
 
             {produto.categoria ? (
               <View style={styles.categoryBadge}>
                 <Tag size={14} color={Colors.textMuted} />
-                <Text style={styles.categoryBadgeText}>{produto.categoria}</Text>
+                <Text style={styles.categoryBadgeText} maxFontSizeMultiplier={1.2}>
+                  {produto.categoria}
+                </Text>
               </View>
             ) : null}
+
+            <TouchableOpacity
+              style={styles.editCardBtn}
+              onPress={() => setEditarProdutoVisible(true)}
+              activeOpacity={0.7}
+            >
+              <Edit3 size={12} color={Colors.primaryDark} />
+              <Text style={styles.editCardText} maxFontSizeMultiplier={1.2}>
+                Editar
+              </Text>
+            </TouchableOpacity>
           </View>
 
-          <Text style={styles.productName}>{produto.nome}</Text>
+          <Text style={styles.productName} maxFontSizeMultiplier={1.25}>
+            {produto.nome}
+          </Text>
 
           <View style={styles.divider} />
 
           <View style={styles.statsRow}>
             <View style={styles.statItem}>
-              <Text style={styles.statLabel}>Total em Estoque</Text>
-              <Text style={styles.statValue}>{totalEstoque} un</Text>
+              <Text style={styles.statLabel} maxFontSizeMultiplier={1.2}>
+                Total em Estoque
+              </Text>
+              <Text style={styles.statValue} maxFontSizeMultiplier={1.25}>
+                {totalEstoque} un
+              </Text>
             </View>
 
             <View style={styles.statItem}>
-              <Text style={styles.statLabel}>Lotes Ativos</Text>
-              <Text style={styles.statValue}>{lotesAtivos.length} lote(s)</Text>
+              <Text style={styles.statLabel} maxFontSizeMultiplier={1.2}>
+                Lotes Ativos
+              </Text>
+              <Text style={styles.statValue} maxFontSizeMultiplier={1.25}>
+                {lotesAtivos.length} lote(s)
+              </Text>
             </View>
           </View>
         </View>
@@ -201,14 +268,21 @@ export default function ProdutoDetalhesScreen() {
         {/* Seção de Lotes */}
         <View style={styles.sectionHeader}>
           <Layers size={18} color={Colors.secondary} />
-          <Text style={styles.sectionTitle}>Lotes Cadastrados</Text>
+          <Text style={styles.sectionTitle} maxFontSizeMultiplier={1.25}>
+            Lotes Cadastrados
+          </Text>
+          {refreshingLots && (
+            <ActivityIndicator size="small" color={Colors.primary} style={{ marginLeft: 6 }} />
+          )}
         </View>
 
         {lotesAtivos.length === 0 ? (
           <View style={styles.emptyContainer}>
             <Package size={40} color={Colors.primary} />
-            <Text style={styles.emptyTitle}>Nenhum lote ativo</Text>
-            <Text style={styles.emptySubtitle}>
+            <Text style={styles.emptyTitle} maxFontSizeMultiplier={1.25}>
+              Nenhum lote ativo
+            </Text>
+            <Text style={styles.emptySubtitle} maxFontSizeMultiplier={1.2}>
               Todos os lotes deste produto já tiveram baixa ou ainda não foram cadastrados.
             </Text>
           </View>
@@ -225,12 +299,25 @@ export default function ProdutoDetalhesScreen() {
       </ScrollView>
 
       {/* Modais */}
+      <EditarProdutoModal
+        visible={editarProdutoVisible}
+        produto={produto}
+        onClose={() => setEditarProdutoVisible(false)}
+        onSuccess={(atualizado) => {
+          setProduto((prev) => (prev ? { ...prev, ...atualizado } : atualizado));
+          fetchProduto(true);
+        }}
+        onDeleted={() => {
+          router.back();
+        }}
+      />
+
       <NovoLoteModal
         visible={novoLoteVisible}
         produtoId={produto.id}
         produtoNome={produto.nome}
         onClose={() => setNovoLoteVisible(false)}
-        onSuccess={fetchProduto}
+        onSuccess={() => fetchProduto(true)}
         onSubmit={handleCreateLote}
       />
 
@@ -243,7 +330,7 @@ export default function ProdutoDetalhesScreen() {
           loteParaBaixa
             ? async () => {
                 await deleteLote(loteParaBaixa.id);
-                fetchProduto();
+                fetchProduto(true);
               }
             : undefined
         }
@@ -271,7 +358,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  backBtn: {
+  headerBtn: {
     width: 40,
     height: 40,
     borderRadius: 20,
@@ -283,6 +370,9 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "800",
+    flex: 1,
+    textAlign: "center",
+    marginHorizontal: 8,
   },
   content: {
     flex: 1,
@@ -306,8 +396,10 @@ const styles = StyleSheet.create({
   },
   badgeRow: {
     flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
     gap: 8,
-    marginBottom: 10,
+    marginBottom: 12,
   },
   eanBadge: {
     flexDirection: "row",
@@ -337,6 +429,21 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: Colors.textMuted,
   },
+  editCardBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F4EBD9",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    gap: 4,
+    marginLeft: "auto",
+  },
+  editCardText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: Colors.primaryDark,
+  },
   productName: {
     fontSize: 22,
     fontWeight: "900",
@@ -351,9 +458,12 @@ const styles = StyleSheet.create({
   statsRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: 12,
   },
   statItem: {
     flex: 1,
+    minWidth: 120,
   },
   statLabel: {
     fontSize: 12,

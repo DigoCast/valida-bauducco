@@ -23,12 +23,18 @@ export const Header: React.FC<HeaderProps> = ({
     <View style={[styles.header, { paddingTop: topPadding }]}>
       <View style={styles.content}>
         <View style={styles.titleContainer}>
-          <Text style={styles.brandTitle}>CASA BAUDUCCO</Text>
-          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.brandTitle} maxFontSizeMultiplier={1.2}>
+            CASA BAUDUCCO
+          </Text>
+          <Text style={styles.title} maxFontSizeMultiplier={1.25} numberOfLines={1}>
+            {title}
+          </Text>
           {subtitle ? (
-            <Text style={styles.subtitle}>{subtitle}</Text>
+            <Text style={styles.subtitle} maxFontSizeMultiplier={1.2} numberOfLines={1}>
+              {subtitle}
+            </Text>
           ) : user ? (
-            <Text style={styles.subtitle}>
+            <Text style={styles.subtitle} maxFontSizeMultiplier={1.2} numberOfLines={1}>
               Operador: {user.nome} ({user.role === "ADMIN" ? "Gerente" : "Loja"})
             </Text>
           ) : null}

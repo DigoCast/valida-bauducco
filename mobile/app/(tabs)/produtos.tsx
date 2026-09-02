@@ -53,14 +53,33 @@ export default function ProdutosScreen() {
       <TouchableOpacity
         style={styles.card}
         activeOpacity={0.7}
-        onPress={() => router.push(`/produto/${item.id}` as any)}
+        onPress={() =>
+          router.push({
+            pathname: `/produto/${item.id}`,
+            params: {
+              initialNome: item.nome,
+              initialCodigo: item.codigoBarras,
+              initialCategoria: item.categoria || "",
+            },
+          } as any)
+        }
       >
         <View style={styles.cardHeader}>
           <View style={styles.titleCol}>
-            <Text style={styles.nomeProduto} numberOfLines={1}>
+            <Text
+              style={styles.nomeProduto}
+              numberOfLines={2}
+              maxFontSizeMultiplier={1.25}
+            >
               {item.nome}
             </Text>
-            <Text style={styles.codigoBarras}>EAN: {item.codigoBarras}</Text>
+            <Text
+              style={styles.codigoBarras}
+              numberOfLines={1}
+              maxFontSizeMultiplier={1.2}
+            >
+              EAN: {item.codigoBarras}
+            </Text>
           </View>
           <ChevronRight size={20} color={Colors.textMuted} />
         </View>
@@ -71,14 +90,24 @@ export default function ProdutosScreen() {
           {item.categoria ? (
             <View style={styles.categoryBadge}>
               <Tag size={12} color={Colors.primaryDark} />
-              <Text style={styles.categoryBadgeText}>{item.categoria}</Text>
+              <Text
+                style={styles.categoryBadgeText}
+                numberOfLines={1}
+                maxFontSizeMultiplier={1.2}
+              >
+                {item.categoria}
+              </Text>
             </View>
           ) : (
             <View />
           )}
 
           <View style={styles.lotesBadge}>
-            <Text style={styles.lotesBadgeText}>
+            <Text
+              style={styles.lotesBadgeText}
+              numberOfLines={1}
+              maxFontSizeMultiplier={1.2}
+            >
               {lotesAtivos.length} lote(s) • {totalItens} un
             </Text>
           </View>

@@ -46,10 +46,18 @@ export const LoteCard: React.FC<LoteCardProps> = ({
     >
       <View style={styles.headerRow}>
         <View style={styles.productInfo}>
-          <Text style={styles.productName} numberOfLines={1}>
+          <Text
+            style={styles.productName}
+            numberOfLines={2}
+            maxFontSizeMultiplier={1.25}
+          >
             {lote.produto?.nome || "Produto Bauducco"}
           </Text>
-          <Text style={styles.barcodeText}>
+          <Text
+            style={styles.barcodeText}
+            numberOfLines={1}
+            maxFontSizeMultiplier={1.2}
+          >
             EAN: {lote.produto?.codigoBarras || "—"}
           </Text>
         </View>
@@ -60,7 +68,10 @@ export const LoteCard: React.FC<LoteCardProps> = ({
             { backgroundColor: badgeTheme.background, borderColor: badgeTheme.border },
           ]}
         >
-          <Text style={[styles.badgeText, { color: badgeTheme.color }]}>
+          <Text
+            style={[styles.badgeText, { color: badgeTheme.color }]}
+            maxFontSizeMultiplier={1.2}
+          >
             {lote.descricaoStatus}
           </Text>
         </View>
@@ -72,14 +83,23 @@ export const LoteCard: React.FC<LoteCardProps> = ({
         <View style={styles.detailsCol}>
           <View style={styles.detailItem}>
             <Calendar size={14} color={Colors.textMuted} />
-            <Text style={styles.detailText} numberOfLines={1} ellipsizeMode="tail">
+            <Text
+              style={styles.detailText}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              maxFontSizeMultiplier={1.2}
+            >
               Validade: <Text style={styles.boldText}>{lote.dataFormatada}</Text>
             </Text>
           </View>
 
           <View style={[styles.detailItem, { marginTop: 4 }]}>
             <PackageCheck size={14} color={Colors.textMuted} />
-            <Text style={styles.detailText} numberOfLines={1} ellipsizeMode="tail">
+            <Text
+              style={styles.detailText}
+              numberOfLines={2}
+              maxFontSizeMultiplier={1.2}
+            >
               Qtd: <Text style={styles.boldText}>{lote.quantidade} un</Text>
               {lote.numeroLote ? ` • Lote: ${lote.numeroLote}` : ""}
             </Text>
@@ -94,7 +114,12 @@ export const LoteCard: React.FC<LoteCardProps> = ({
               activeOpacity={0.7}
             >
               <CheckCircle2 size={16} color={Colors.primary} />
-              <Text style={styles.baixaButtonText}>Baixa</Text>
+              <Text
+                style={styles.baixaButtonText}
+                maxFontSizeMultiplier={1.2}
+              >
+                Baixa
+              </Text>
             </TouchableOpacity>
           )}
 
@@ -131,15 +156,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-start",
     justifyContent: "space-between",
+    gap: 8,
   },
   productInfo: {
     flex: 1,
-    marginRight: 10,
   },
   productName: {
     fontSize: 16,
     fontWeight: "700",
     color: Colors.secondary,
+    lineHeight: 22,
   },
   barcodeText: {
     fontSize: 12,
@@ -152,6 +178,8 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: 10,
     borderWidth: 1,
+    flexShrink: 0,
+    alignSelf: "flex-start",
   },
   badgeText: {
     fontSize: 11,
@@ -166,10 +194,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    flexWrap: "wrap",
+    gap: 8,
   },
   detailsCol: {
     flex: 1,
-    marginRight: 12,
+    minWidth: 140,
     justifyContent: "center",
   },
   detailItem: {
