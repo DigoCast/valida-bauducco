@@ -44,7 +44,10 @@
       "bundler": "metro"
     },
     "extra": {
-      "router": {}
+      "router": {},
+      "eas": {
+        "projectId": "689131b5-3a02-47a7-835a-c70de683877a"
+      }
     }
   }
 }
