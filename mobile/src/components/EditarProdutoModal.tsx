@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -178,7 +178,7 @@ export const EditarProdutoModal: React.FC<EditarProdutoModalProps> = ({
           >
             <CustomInput
               label="Nome do Produto *"
-              placeholder="Ex: Panettone Bauducco 500g"
+              placeholder="Ex: Panettone Tradicional 500g"
               value={nome}
               onChangeText={(text) => {
                 setNome(text);

@@ -1,10 +1,10 @@
-# 📱 ValidaBauducco — Aplicativo Mobile (React Native + Expo)
+# 📱 ValidaCB — Aplicativo Mobile (React Native + Expo)
 
-> Aplicativo móvel construído com **React Native**, **Expo SDK 54** e **Expo Router**, proporcionando uma experiência ágil para operadores e gerentes de lojas da **Casa Bauducco** realizarem leituras de código de barras, cadastro de novos produtos, monitoramento visual de semáforo de validade e baixa de lotes.
+> Aplicativo móvel construído com **React Native**, **Expo SDK 54** e **Expo Router**, proporcionando uma experiência ágil para operadores e gerentes de lojas da **Rede CB** realizarem leituras de código de barras, cadastro de novos produtos, monitoramento visual de semáforo de validade e baixa de lotes.
 
 ---
 
-## 🎨 Identidade Visual (Tema Casa Bauducco)
+## 🎨 Identidade Visual (Tema Rede CB)
 
 * **Dourado Nobre:** `#D48B06` (Botões de ação primária e destaques)
 * **Marrom Café / Chocolate:** `#3D1E10` (Cabeçalho e superfícies nobres)
@@ -23,8 +23,8 @@
 ## 🚀 Funcionalidades e Telas do App
 
 ### 1. Autenticação & Sessão (`(auth)`)
-* **Login ([app/(auth)/login.tsx](file:///C:/Users/diego/FATEC/valida-bauducco/mobile/app/(auth)/login.tsx)):** Acesso com e-mail corporativo e senha.
-* **Cadastro ([app/(auth)/register.tsx](file:///C:/Users/diego/FATEC/valida-bauducco/mobile/app/(auth)/register.tsx)):** Criação de conta com perfil de Operador ou Gerente.
+* **Login (`app/(auth)/login.tsx`):** Acesso com e-mail corporativo e senha.
+* **Cadastro (`app/(auth)/register.tsx`):** Criação de conta com perfil de Operador ou Gerente.
 * **Persistência Segura:** Tokens e perfil armazenados via `expo-secure-store`.
 
 ### 2. Painel de Validades / Dashboard (`(tabs)/index.tsx`)

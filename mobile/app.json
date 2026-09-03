@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ValidaBauducco",
-    "slug": "valida-bauducco",
+    "name": "ValidaCB",
+    "slug": "valida-cb",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme": "validabauducco",
+    "scheme": "validacb",
     "userInterfaceStyle": "light",
     "splash": {
       "backgroundColor": "#3D1E10"
@@ -13,11 +13,11 @@
     "ios": {
       "supportsTablet": false,
       "infoPlist": {
-        "NSCameraUsageDescription": "O ValidaBauducco precisa de acesso à câmera para escanear códigos de barras de produtos."
+        "NSCameraUsageDescription": "O ValidaCB precisa de acesso à câmera para escanear códigos de barras de produtos."
       }
     },
     "android": {
-      "package": "com.fatec.validabauducco",
+      "package": "com.fatec.validacb",
       "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#3D1E10",
@@ -35,7 +35,7 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "O ValidaBauducco precisa de acesso à câmera para escanear códigos de barras de produtos."
+          "cameraPermission": "O ValidaCB precisa de acesso à câmera para escanear códigos de barras de produtos."
         }
       ]
     ],

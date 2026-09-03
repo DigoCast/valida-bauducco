@@ -1,8 +1,8 @@
 {
-  "name": "valida-bauducco-backend",
+  "name": "valida-cb-backend",
   "version": "1.0.0",
   "type": "module",
-  "description": "API REST para controle de validade e lotes - ValidaBauducco",
+  "description": "API REST para controle de validade e lotes - ValidaCB",
   "main": "dist/server.cjs",
   "scripts": {
     "dev": "tsx watch src/server.ts",
@@ -19,7 +19,7 @@
     "fastify",
     "prisma",
     "typescript",
-    "bauducco",
+    "estoque",
     "validade"
   ],
   "author": "",

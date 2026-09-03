@@ -103,7 +103,7 @@ export default function PerfilScreen() {
             <Building2 size={18} color={Colors.textMuted} />
             <Text style={styles.infoLabel}>Loja:</Text>
             <Text style={styles.infoValue}>
-              {user?.lojaId ? "Franquia Casa Bauducco" : "Loja Principal"}
+              {user?.lojaId ? "Franquia Rede CB" : "Loja Principal"}
             </Text>
           </View>
         </View>

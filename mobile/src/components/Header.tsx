@@ -11,7 +11,7 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  title = "Casa Bauducco",
+  title = "Rede CB",
   subtitle,
   rightAction,
 }) => {
@@ -24,7 +24,7 @@ export const Header: React.FC<HeaderProps> = ({
       <View style={styles.content}>
         <View style={styles.titleContainer}>
           <Text style={styles.brandTitle} maxFontSizeMultiplier={1.2}>
-            CASA BAUDUCCO
+            REDE CB
           </Text>
           <Text style={styles.title} maxFontSizeMultiplier={1.25} numberOfLines={1}>
             {title}

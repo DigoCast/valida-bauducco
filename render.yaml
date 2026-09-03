@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: valida-bauducco-api
+    name: valida-cb-api
     runtime: node
     plan: free
     rootDir: backend

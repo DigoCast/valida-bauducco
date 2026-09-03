@@ -75,7 +75,7 @@ export default function RegisterScreen() {
       >
         <View style={styles.header}>
           <View style={styles.badgeContainer}>
-            <Text style={styles.badgeText}>CASA BAUDUCCO</Text>
+            <Text style={styles.badgeText}>REDE CB</Text>
           </View>
           <Text style={styles.appTitle}>Criar Conta</Text>
           <Text style={styles.appSubtitle}>
@@ -97,7 +97,7 @@ export default function RegisterScreen() {
 
           <CustomInput
             label="E-mail Corporativo *"
-            placeholder="ex: operador@bauducco.com.br"
+            placeholder="ex: operador@validacb.com.br"
             keyboardType="email-address"
             autoCapitalize="none"
             value={email}

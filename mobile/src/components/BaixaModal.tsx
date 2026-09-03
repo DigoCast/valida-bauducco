@@ -96,7 +96,7 @@ export const BaixaModal: React.FC<BaixaModalProps> = ({
 
               <View style={styles.productSummary}>
                 <Text style={styles.productName}>
-                  {lote.produto?.nome || "Produto Bauducco"}
+                  {lote.produto?.nome || "Produto"}
                 </Text>
                 <Text style={styles.productDetails}>
                   Validade: {lote.dataFormatada} • Qtd: {lote.quantidade} un

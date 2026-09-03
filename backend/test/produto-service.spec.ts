@@ -25,7 +25,7 @@ describe("ProdutoService", () => {
     const mockProduto = {
       id: "prod-1",
       codigoBarras: "7891234567890",
-      nome: "Panettone Bauducco Frutas 500g",
+      nome: "Panettone Tradicional Frutas 500g",
       categoria: "Panettones",
       lojaId: null,
       criadoEm: new Date(),
@@ -36,12 +36,12 @@ describe("ProdutoService", () => {
 
     const result = await produtoService.upsert({
       codigoBarras: "7891234567890",
-      nome: "Panettone Bauducco Frutas 500g",
+      nome: "Panettone Tradicional Frutas 500g",
       categoria: "Panettones",
     });
 
     expect(result.id).toBe("prod-1");
-    expect(result.nome).toBe("Panettone Bauducco Frutas 500g");
+    expect(result.nome).toBe("Panettone Tradicional Frutas 500g");
   });
 
   it("deve buscar produto por código de barras com os lotes calculando semáforo", async () => {
@@ -50,7 +50,7 @@ describe("ProdutoService", () => {
     const mockProdutoComLotes = {
       id: "prod-1",
       codigoBarras: "7891234567890",
-      nome: "Panettone Bauducco",
+      nome: "Panettone Tradicional",
       categoria: "Panettones",
       lojaId: null,
       criadoEm: new Date(),

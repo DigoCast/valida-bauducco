@@ -31,22 +31,22 @@ describe("AuthService (Serviço de Autenticação)", () => {
     }));
 
     const result = await authService.register({
-      nome: "Gerente Bauducco",
-      email: "loja@bauducco.com.br",
+      nome: "Gerente Loja",
+      email: "loja@validacb.com.br",
       senha: "password123",
     });
 
     expect(result.id).toBe("user-uuid-1");
-    expect(result.nome).toBe("Gerente Bauducco");
-    expect(result.email).toBe("loja@bauducco.com.br");
+    expect(result.nome).toBe("Gerente Loja");
+    expect(result.email).toBe("loja@validacb.com.br");
     expect((result as any).senhaHash).toBeUndefined();
   });
 
   it("não deve permitir cadastrar dois usuários com o mesmo e-mail", async () => {
     vi.spyOn(userRepository, "findByEmail").mockResolvedValue({
       id: "user-uuid-1",
-      nome: "Gerente Bauducco",
-      email: "loja@bauducco.com.br",
+      nome: "Gerente Loja",
+      email: "loja@validacb.com.br",
       senhaHash: "hash",
       role: "OPERATOR",
       lojaId: null,
@@ -56,7 +56,7 @@ describe("AuthService (Serviço de Autenticação)", () => {
     await expect(
       authService.register({
         nome: "Outro Gerente",
-        email: "loja@bauducco.com.br",
+        email: "loja@validacb.com.br",
         senha: "password123",
       })
     ).rejects.toBeInstanceOf(ConflictError);
@@ -68,8 +68,8 @@ describe("AuthService (Serviço de Autenticação)", () => {
 
     vi.spyOn(userRepository, "findByEmail").mockResolvedValue({
       id: "user-uuid-1",
-      nome: "Gerente Bauducco",
-      email: "loja@bauducco.com.br",
+      nome: "Gerente Loja",
+      email: "loja@validacb.com.br",
       senhaHash,
       role: "OPERATOR",
       lojaId: null,
@@ -77,12 +77,12 @@ describe("AuthService (Serviço de Autenticação)", () => {
     });
 
     const user = await authService.login({
-      email: "loja@bauducco.com.br",
+      email: "loja@validacb.com.br",
       senha: password,
     });
 
     expect(user.id).toBe("user-uuid-1");
-    expect(user.email).toBe("loja@bauducco.com.br");
+    expect(user.email).toBe("loja@validacb.com.br");
   });
 
   it("deve lançar erro Unauthorized se a senha estiver incorreta", async () => {
@@ -90,8 +90,8 @@ describe("AuthService (Serviço de Autenticação)", () => {
 
     vi.spyOn(userRepository, "findByEmail").mockResolvedValue({
       id: "user-uuid-1",
-      nome: "Gerente Bauducco",
-      email: "loja@bauducco.com.br",
+      nome: "Gerente Loja",
+      email: "loja@validacb.com.br",
       senhaHash,
       role: "OPERATOR",
       lojaId: null,
@@ -100,7 +100,7 @@ describe("AuthService (Serviço de Autenticação)", () => {
 
     await expect(
       authService.login({
-        email: "loja@bauducco.com.br",
+        email: "loja@validacb.com.br",
         senha: "wrong-password",
       })
     ).rejects.toBeInstanceOf(UnauthorizedError);
@@ -111,7 +111,7 @@ describe("AuthService (Serviço de Autenticação)", () => {
 
     await expect(
       authService.login({
-        email: "inexistente@bauducco.com.br",
+        email: "inexistente@validacb.com.br",
         senha: "password",
       })
     ).rejects.toBeInstanceOf(UnauthorizedError);

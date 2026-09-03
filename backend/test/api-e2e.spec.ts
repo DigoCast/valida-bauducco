@@ -3,7 +3,7 @@ import { app } from "@/app.js";
 import { prisma } from "@/lib/prisma.js";
 import { dayjs } from "@/lib/dayjs.js";
 
-describe("E2E - Fluxo Completo da API ValidaBauducco (5 Marcos de Validade)", () => {
+describe("E2E - Fluxo Completo da API ValidaCB (5 Marcos de Validade)", () => {
   let authToken = "";
   let produtoId = "";
   let lote3DiasId = "";
@@ -13,7 +13,7 @@ describe("E2E - Fluxo Completo da API ValidaBauducco (5 Marcos de Validade)", ()
     // Limpa dados de teste prévios se existirem
     await prisma.lote.deleteMany();
     await prisma.produto.deleteMany();
-    await prisma.usuario.deleteMany({ where: { email: "teste.e2e@bauducco.com.br" } });
+    await prisma.usuario.deleteMany({ where: { email: "teste.e2e@validacb.com.br" } });
   });
 
   afterAll(async () => {
@@ -26,7 +26,7 @@ describe("E2E - Fluxo Completo da API ValidaBauducco (5 Marcos de Validade)", ()
       url: "/api/auth/register",
       payload: {
         nome: "Gerente Teste E2E",
-        email: "teste.e2e@bauducco.com.br",
+        email: "teste.e2e@validacb.com.br",
         senha: "senhaSegura123",
         role: "ADMIN",
       },
@@ -34,7 +34,7 @@ describe("E2E - Fluxo Completo da API ValidaBauducco (5 Marcos de Validade)", ()
 
     expect(response.statusCode).toBe(201);
     const body = response.json();
-    expect(body.user.email).toBe("teste.e2e@bauducco.com.br");
+    expect(body.user.email).toBe("teste.e2e@validacb.com.br");
     expect(body.token).toBeDefined();
     authToken = body.token;
   });
@@ -44,7 +44,7 @@ describe("E2E - Fluxo Completo da API ValidaBauducco (5 Marcos de Validade)", ()
       method: "POST",
       url: "/api/auth/login",
       payload: {
-        email: "teste.e2e@bauducco.com.br",
+        email: "teste.e2e@validacb.com.br",
         senha: "senhaSegura123",
       },
     });
@@ -78,7 +78,7 @@ describe("E2E - Fluxo Completo da API ValidaBauducco (5 Marcos de Validade)", ()
       },
       payload: {
         codigoBarras: "7891000100101",
-        nome: "Panettone Bauducco Frutas 500g",
+        nome: "Panettone Tradicional Frutas 500g",
         categoria: "Panettones",
       },
     });

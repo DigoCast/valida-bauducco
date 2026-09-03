@@ -89,7 +89,7 @@ export default function ScannerScreen() {
         <ScanLine size={64} color={Colors.primary} />
         <Text style={styles.permissionTitle}>Acesso à Câmera Necessário</Text>
         <Text style={styles.permissionSubtitle}>
-          Precisamos de acesso à câmera para ler os códigos de barras dos produtos da Casa Bauducco.
+          Precisamos de acesso à câmera para ler os códigos de barras dos produtos.
         </Text>
         <CustomButton
           title="Permitir Câmera"

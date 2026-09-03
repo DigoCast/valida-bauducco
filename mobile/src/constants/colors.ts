@@ -1,8 +1,8 @@
 /**
- * Paleta de Cores Oficial - ValidaBauducco (Tema Casa Bauducco)
+ * Paleta de Cores Oficial - ValidaCB (Tema Rede CB)
  */
 export const Colors = {
-  // Cores da Marca Bauducco
+  // Cores da Marca CB
   primary: "#D48B06", // Dourado / Mostarda nobre
   primaryDark: "#A86B00",
   primaryLight: "#FDE8B5",

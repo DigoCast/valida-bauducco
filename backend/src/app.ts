@@ -31,9 +31,9 @@ app.register(fastifyJwt, {
 app.register(fastifySwagger, {
   openapi: {
     info: {
-      title: "ValidaBauducco API",
+      title: "ValidaCB API",
       description:
-        "API Backend para gestão de validade, múltiplos lotes e alertas preventivos da Casa Bauducco.",
+        "API Backend para gestão de validade, múltiplos lotes e alertas preventivos da Rede CB.",
       version: "1.0.0",
     },
     servers: [
@@ -70,7 +70,7 @@ app.get("/health", async () => {
   return {
     status: "ok",
     timestamp: new Date().toISOString(),
-    service: "ValidaBauducco API",
+    service: "ValidaCB API",
   };
 });
 

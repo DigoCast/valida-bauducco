@@ -1,4 +1,4 @@
-﻿{
+{
   "cli": {
     "version": ">= 14.0.0"
   },
@@ -13,7 +13,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://valida-bauducco-api.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://valida-cb-api.onrender.com"
       }
     },
     "production": {
@@ -21,7 +21,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://valida-bauducco-api.onrender.com"
+        "EXPO_PUBLIC_API_URL": "https://valida-cb-api.onrender.com"
       }
     }
   },

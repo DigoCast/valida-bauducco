@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Lote } from "@/types/index";
@@ -74,7 +74,7 @@ export const LoteCard: React.FC<LoteCardProps> = ({
         style={styles.productName}
         maxFontSizeMultiplier={1.25}
       >
-        {lote.produto?.nome || "Produto Bauducco"}
+        {lote.produto?.nome || "Produto"}
       </Text>
 
       <View style={styles.divider} />

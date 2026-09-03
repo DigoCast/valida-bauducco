@@ -15,8 +15,8 @@ export async function authRoutes(app: FastifyInstance) {
           type: "object",
           required: ["nome", "email", "senha"],
           properties: {
-            nome: { type: "string", example: "Gerente Bauducco" },
-            email: { type: "string", format: "email", example: "loja@bauducco.com.br" },
+            nome: { type: "string", example: "Gerente Loja" },
+            email: { type: "string", format: "email", example: "loja@validacb.com.br" },
             senha: { type: "string", minLength: 6, example: "123456" },
             role: { type: "string", enum: ["OPERATOR", "ADMIN"], default: "OPERATOR" },
           },
@@ -56,7 +56,7 @@ export async function authRoutes(app: FastifyInstance) {
           type: "object",
           required: ["email", "senha"],
           properties: {
-            email: { type: "string", format: "email", example: "loja@bauducco.com.br" },
+            email: { type: "string", format: "email", example: "loja@validacb.com.br" },
             senha: { type: "string", example: "123456" },
           },
         },

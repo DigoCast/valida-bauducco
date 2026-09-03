@@ -65,9 +65,9 @@ export default function LoginScreen() {
         {/* Banner Superior da Marca */}
         <View style={styles.header}>
           <View style={styles.badgeContainer}>
-            <Text style={styles.badgeText}>CASA BAUDUCCO</Text>
+            <Text style={styles.badgeText}>REDE CB</Text>
           </View>
-          <Text style={styles.appTitle}>ValidaBauducco</Text>
+          <Text style={styles.appTitle}>ValidaCB</Text>
           <Text style={styles.appSubtitle}>
             Controle de validade e prevenção de perdas
           </Text>
@@ -79,7 +79,7 @@ export default function LoginScreen() {
 
           <CustomInput
             label="E-mail Corporativo"
-            placeholder="ex: operador@bauducco.com.br"
+            placeholder="ex: operador@validacb.com.br"
             keyboardType="email-address"
             autoCapitalize="none"
             value={email}

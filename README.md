@@ -1,6 +1,6 @@
-# 🍞 ValidaBauducco — Sistema de Controle de Validades e Prevenção de Perdas
+# 🍞 ValidaCB — Sistema de Controle de Validades e Prevenção de Perdas
 
-> Aplicativo Mobile e API Backend desenvolvidos para franquias da **Casa Bauducco**, focados na automação do monitoramento de validades, controle de giro de estoque e prevenção de perdas de produtos perecíveis.
+> Aplicativo Mobile e API Backend desenvolvidos para franquias da **Rede CB**, focados na automação do monitoramento de validades, controle de giro de estoque e prevenção de perdas de produtos perecíveis.
 
 ---
 
@@ -22,9 +22,9 @@
 
 ## 🎯 Visão Geral e Proposta de Valor
 
-Em lojas da Casa Bauducco, produtos como Panettones, Biscoitos Artesanais, Bolos e Chocolates possuem prazos de validade específicos por lote de fabricação. 
+Em lojas e franquias da Rede CB, produtos como Panettones, Biscoitos Artesanais, Bolos e Chocolates possuem prazos de validade específicos por lote de fabricação. 
 
-O **ValidaBauducco** resolve a dificuldade do controle manual em prateleiras através de:
+O **ValidaCB** resolve a dificuldade do controle manual em prateleiras através de:
 1. **Leitura Instantânea de Código de Barras (EAN):** Identificação ágil do produto na entrada ou auditoria de estoque.
 2. **Dashboard Visual com 5 Marcos de Validade:** Notificação e semáforo colorido preventivo antes que os produtos vençam.
 3. **Baixa Rápida de Estoque:** Registro imediato de saídas (*Vendido* ou *Descartado*) e exclusão definitiva de lotes.
@@ -55,7 +55,7 @@ O **ValidaBauducco** resolve a dificuldade do controle manual em prateleiras atr
 ```mermaid
 graph TD
     subgraph Mobile ["📱 App Mobile (React Native + Expo SDK 54)"]
-        UI["Interface Casa Bauducco"]
+        UI["Interface Rede CB"]
         Router["Expo Router (Abas & Telas)"]
         Cam["Expo Camera (Leitor EAN)"]
         Store["Expo SecureStore (JWT)"]
@@ -114,7 +114,7 @@ graph TD
 ## 📁 Estrutura do Repositório
 
 ```text
-valida-bauducco/
+valida-cb/
 ├── backend/                  # API REST Fastify + Prisma + Neon
 │   ├── prisma/               # Schema e Migrações do PostgreSQL
 │   ├── src/
@@ -139,7 +139,7 @@ valida-bauducco/
 │   │   └── _layout.tsx       # Layout raiz com AuthProvider e Safe Area
 │   ├── src/
 │   │   ├── components/       # Cards de Lote, Métricas, Header e Modais
-│   │   ├── constants/        # Cores Casa Bauducco e Semáforo
+│   │   ├── constants/        # Cores e Semáforo
 │   │   ├── contexts/         # AuthContext com sessão persistida
 │   │   ├── services/         # Conexão com a API (Axios) e Notificações
 │   │   ├── types/            # Interfaces TypeScript

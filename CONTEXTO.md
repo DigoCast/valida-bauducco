@@ -1,11 +1,11 @@
-# 📌 Contexto e Acompanhamento do Projeto: ValidaBauducco
+# 📌 Contexto e Acompanhamento do Projeto: ValidaCB
 
 > **Documento de Contexto Vivo**: Este documento é atualizado a cada etapa do projeto para registrar decisões de arquitetura, regras de negócio, status atual de desenvolvimento e os próximos passos.
 
 ---
 
 ## 🎯 1. Visão Geral do Produto
-O **ValidaBauducco** é um sistema completo composto por uma **API Backend** e um aplicativo **Mobile (React Native/Expo)** projetado para franquias da **Casa Bauducco**, com foco na prevenção de perdas financeiras por produtos vencidos e na automação do controle de validade e reposição de prateleiras.
+O **ValidaCB** é um sistema completo composto por uma **API Backend** e um aplicativo **Mobile (React Native/Expo)** projetado para franquias da **Rede CB**, com foco na prevenção de perdas financeiras por produtos vencidos e na automação do controle de validade e reposição de prateleiras.
 
 ### 🔑 Regra Central do Negócio:
 - **1 Produto : N Lotes**: Cada produto possui um **código de barras (EAN)** único, nome e categoria.
@@ -46,7 +46,7 @@ Calculado dinamicamente com base na diferença em dias entre a data atual (fuso 
 
 ### Frontend Mobile (React Native / Expo):
 - **Framework & Roteamento:** Expo SDK 54 com **Expo Router v6** (TypeScript)
-- **Design System & Paleta Casa Bauducco:**
+- **Design System & Paleta Rede CB:**
   - Primária (Dourado/Mostarda): `#D48B06` / `#A86B00`
   - Secundária (Marrom Café): `#3D1E10` / `#261108`
   - Fundo Geral: Off-white `#F9F8F5` | Cards: Branco Puro `#FFFFFF`
@@ -201,7 +201,7 @@ model DispositivoToken {
 - [x] **Etapa 9: Desenvolvimento do Aplicativo Mobile (`mobile/`)**
   - [x] 9.1: Inicialização do projeto Expo Router no diretório `mobile/`
   - [x] 9.2: Instalação de dependências (`expo-camera`, `expo-haptics`, `expo-secure-store`, `lucide-react-native`, `axios`)
-  - [x] 9.3: Configuração de tema visual, cores da Casa Bauducco e API client (`src/services/api.ts`)
+  - [x] 9.3: Configuração de tema visual, cores da Rede CB e API client (`src/services/api.ts`)
   - [x] 9.4: Camada de Autenticação (`AuthContext`, Telas de Login e Cadastro)
   - [x] 9.5: Layout de Navegação com Bottom Tabs (Dashboard, Scanner, Estoque, Perfil)
   - [x] 9.6: Tela de Dashboard com Cards dos 5 Marcos e Lista de Lotes
@@ -213,7 +213,7 @@ model DispositivoToken {
 - [x] **Etapa 11: Preparação de Deploy do Backend em Nuvem e Build do APK Android (EAS Build)**
   - [x] 11.1: Ajuste dos scripts de build e start no `backend/package.json` (`prisma generate && tsup`, execução de `dist/server.cjs`)
   - [x] 11.2: Criação do arquivo de Blueprint `render.yaml` para deploy automatizado do backend no Render
-  - [x] 11.3: Configuração do identificador de pacote nativo (`com.fatec.validabauducco`) e `versionCode` no `mobile/app.json`
+  - [x] 11.3: Configuração do identificador de pacote nativo (`com.fatec.validacb`) e `versionCode` no `mobile/app.json`
   - [x] 11.4: Criação do arquivo de configuração do EAS Build `mobile/eas.json` com perfil `preview` para geração direta de `.apk`
   - [x] 11.5: Suporte a `EXPO_PUBLIC_API_URL` com fallback inteligente no client Axios `mobile/src/services/api.ts`
   - [x] 11.6: Validação de integridade do projeto mobile via `expo-doctor` (18/18 checks aprovados) e testes do backend (29/29 testes passando)

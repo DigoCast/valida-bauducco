@@ -80,8 +80,8 @@ export class AlertaValidadeService {
 
       const titulo =
         countCriticos3Dias > 0
-          ? "🚨 ValidaBauducco: Alerta Crítico de Vencimento!"
-          : "🔔 ValidaBauducco: Atualização Diária de Validades";
+          ? "🚨 ValidaCB: Alerta Crítico de Vencimento!"
+          : "🔔 ValidaCB: Atualização Diária de Validades";
 
       const mensagens: ExpoPushMessage[] = tokens.map((token) => ({
         to: token,

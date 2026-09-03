@@ -1,4 +1,4 @@
-# ⚙️ ValidaBauducco — API Backend
+# ⚙️ ValidaCB — API Backend
 
 > API RESTful desenvolvida com **Fastify v5**, **TypeScript estrito**, **Prisma ORM v6** e **PostgreSQL Serverless no Neon**, responsável pelas regras de negócio, cálculo do semáforo dos 5 marcos de validade, autenticação JWT e agendamento de notificações push.
 
