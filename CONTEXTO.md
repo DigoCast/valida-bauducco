@@ -5,9 +5,11 @@
 ---
 
 ## 🎯 1. Visão Geral do Produto
+
 O **ValidaCB** é um sistema completo composto por uma **API Backend** e um aplicativo **Mobile (React Native/Expo)** projetado para franquias da **Rede CB**, com foco na prevenção de perdas financeiras por produtos vencidos e na automação do controle de validade e reposição de prateleiras.
 
 ### 🔑 Regra Central do Negócio:
+
 - **1 Produto : N Lotes**: Cada produto possui um **código de barras (EAN)** único, nome e categoria.
 - O que varia são os **lotes**: cada lote possui sua própria **data de validade**, **quantidade** e **status** (`ativo`, `vendido`, `descartado`).
 - Todos os itens de um determinado lote possuem rigorosamente a mesma data de validade.
@@ -15,22 +17,24 @@ O **ValidaCB** é um sistema completo composto por uma **API Backend** e um apli
 ---
 
 ## 🚦 2. Semáforo e Marcos de Notificação de Vencimento
+
 Calculado dinamicamente com base na diferença em dias entre a data atual (fuso `America/Sao_Paulo`) e a `dataValidade` do lote:
 
-| Marco | Urgência | Status Visual | Regra (`diasRestantes`) | Ação / Notificação |
-| :--- | :--- | :--- | :--- | :--- |
-| 🔴 **VENCIDO / 3 DIAS** | `CRITICO` | Vermelho (`#E53935`) | `diasRestantes <= 3` (inclui `< 0`) | Alerta Crítico / Emergência de venda ou descarte |
-| 🟠 **10 DIAS** | `ALERTA_10D` | Laranja (`#FB8C00`) | `4 <= diasRestantes <= 10` | Alerta Imediato / Ação rápida no PDV |
-| 🟡 **20 DIAS** | `ALERTA_20D` | Amarelo (`#FBC02D`) | `11 <= diasRestantes <= 20` | Atenção Operacional / Priorizar reposição |
-| 🔵 **1 MÊS (30 DIAS)** | `ALERTA_1M` | Azul (`#1E88E5`) | `21 <= diasRestantes <= 30` | Alerta Preventivo / Planejar ações de venda |
-| 🟣 **2 MESES (60 DIAS)** | `ALERTA_2M` | Roxo (`#8E24AA`) | `31 <= diasRestantes <= 60` | Planejamento de Giro de Estoque |
-| 🟢 **NORMAL / SEGURO** | `NORMAL` | Verde (`#43A047`) | `diasRestantes > 60` | Validade segura (+2 meses) |
+| Marco                    | Urgência     | Status Visual        | Regra (`diasRestantes`)             | Ação / Notificação                               |
+| :----------------------- | :----------- | :------------------- | :---------------------------------- | :----------------------------------------------- |
+| 🔴 **VENCIDO / 3 DIAS**  | `CRITICO`    | Vermelho (`#E53935`) | `diasRestantes <= 3` (inclui `< 0`) | Alerta Crítico / Emergência de venda ou descarte |
+| 🟠 **10 DIAS**           | `ALERTA_10D` | Laranja (`#FB8C00`)  | `4 <= diasRestantes <= 10`          | Alerta Imediato / Ação rápida no PDV             |
+| 🟡 **20 DIAS**           | `ALERTA_20D` | Amarelo (`#FBC02D`)  | `11 <= diasRestantes <= 20`         | Atenção Operacional / Priorizar reposição        |
+| 🔵 **1 MÊS (30 DIAS)**   | `ALERTA_1M`  | Azul (`#1E88E5`)     | `21 <= diasRestantes <= 30`         | Alerta Preventivo / Planejar ações de venda      |
+| 🟣 **2 MESES (60 DIAS)** | `ALERTA_2M`  | Roxo (`#8E24AA`)     | `31 <= diasRestantes <= 60`         | Planejamento de Giro de Estoque                  |
+| 🟢 **NORMAL / SEGURO**   | `NORMAL`     | Verde (`#43A047`)    | `diasRestantes > 60`                | Validade segura (+2 meses)                       |
 
 ---
 
 ## 🛠️ 3. Stack Tecnológica Definida
 
 ### Backend:
+
 - **Runtime:** Node.js v22 (com `npm`)
 - **Linguagem:** TypeScript (modo `strict: true`)
 - **Framework Web:** Fastify v5
@@ -45,6 +49,7 @@ Calculado dinamicamente com base na diferença em dias entre a data atual (fuso 
 - **Testes Automatizados:** Vitest (29 testes unitários e E2E - 100% passando)
 
 ### Frontend Mobile (React Native / Expo):
+
 - **Framework & Roteamento:** Expo SDK 54 com **Expo Router v6** (TypeScript)
 - **Design System & Paleta Rede CB:**
   - Primária (Dourado/Mostarda): `#D48B06` / `#A86B00`
@@ -159,11 +164,13 @@ model DispositivoToken {
 ## 📡 5. Contratos de Rotas da API (REST)
 
 ### Autenticação & Usuários:
+
 - `POST /api/auth/register` - Cadastro de novo usuário
 - `POST /api/auth/login` - Autenticação e emissão de JWT
 - `GET /api/auth/me` - Dados do usuário autenticado (requer JWT)
 
 ### Produtos:
+
 - `POST /api/produtos` - Cadastro / Upsert de produto por código de barras
 - `GET /api/produtos` - Listagem de produtos com busca
 - `GET /api/produtos/:id` - Detalhes do produto e seus lotes ativos
@@ -172,6 +179,7 @@ model DispositivoToken {
 - `DELETE /api/produtos/:id` - Exclusão definitiva do produto e seus lotes
 
 ### Lotes:
+
 - `POST /api/lotes` - Cadastro de lote para um produto
 - `GET /api/lotes/dashboard` - Resumo agregado dos 5 marcos + lista ordenada por validade
 - `PUT /api/lotes/:id` - Edição de dados do lote (número, validade, quantidade, status)
@@ -179,10 +187,12 @@ model DispositivoToken {
 - `DELETE /api/lotes/:id` - Exclusão definitiva de um lote
 
 ### Dispositivos & Push Notifications:
+
 - `POST /api/dispositivos/token` - Registro de token Expo do dispositivo
 - `DELETE /api/dispositivos/token/:token` - Remoção do token
 
 ### Rotinas Agendadas / Jobs:
+
 - `POST /api/jobs/trigger-alerta-validade` - Disparo manual da varredura dos 5 marcos e push notification
 - `Cron diário (08:00)` - Varredura automática e disparo de notificações
 
@@ -224,4 +234,3 @@ model DispositivoToken {
   - [x] 12.4: Migração e inicialização de novo projeto no EAS Build (`valida-cb`), configuração de `appVersionSource: remote` e salvamento do novo `projectId` (`689131b5-3a02-47a7-835a-c70de683877a`).
   - [x] 12.5: Geração com sucesso do APK instalável Android autônomo via EAS Build conectado à API em nuvem.
   - [x] 12.6: Suíte de 29 testes do backend e 18 checks do `expo-doctor` 100% aprovados.
-
