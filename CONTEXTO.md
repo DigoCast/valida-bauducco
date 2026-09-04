@@ -217,4 +217,11 @@ model DispositivoToken {
   - [x] 11.4: Criação do arquivo de configuração do EAS Build `mobile/eas.json` com perfil `preview` para geração direta de `.apk`
   - [x] 11.5: Suporte a `EXPO_PUBLIC_API_URL` com fallback inteligente no client Axios `mobile/src/services/api.ts`
   - [x] 11.6: Validação de integridade do projeto mobile via `expo-doctor` (18/18 checks aprovados) e testes do backend (29/29 testes passando)
+- [x] **Etapa 12: Rebranding Completo para ValidaCB e Homologação de Build em Produção**
+  - [x] 12.1: Varredura completa e sanitização de menções a marcas registradas em todos os arquivos de backend, mobile, documentação e configs.
+  - [x] 12.2: Rebranding integral para a marca **ValidaCB** (`valida-cb`), com pacote Android `com.fatec.validacb` e deep link `validacb`.
+  - [x] 12.3: Atualização do serviço em nuvem no Render para `valida-cb-api` (`https://valida-cb-api.onrender.com`).
+  - [x] 12.4: Migração e inicialização de novo projeto no EAS Build (`valida-cb`), configuração de `appVersionSource: remote` e salvamento do novo `projectId` (`689131b5-3a02-47a7-835a-c70de683877a`).
+  - [x] 12.5: Geração com sucesso do APK instalável Android autônomo via EAS Build conectado à API em nuvem.
+  - [x] 12.6: Suíte de 29 testes do backend e 18 checks do `expo-doctor` 100% aprovados.
 
