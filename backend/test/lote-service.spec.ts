@@ -185,4 +185,55 @@ describe("LoteService com 5 Marcos de Validade", () => {
 
     expect(result.lote.status).toBe("vendido");
   });
+
+  it("deve atualizar os dados de um lote e recalcular a criticidade", async () => {
+    const dataCriacao = new Date();
+    const existingLote = {
+      id: "lote-1",
+      produtoId: "prod-1",
+      numeroLote: "L-OLD",
+      dataValidade: dayjs().add(5, "day").toDate(),
+      quantidade: 10,
+      status: "ativo" as const,
+      criadoEm: dataCriacao,
+      atualizadoEm: dataCriacao,
+      produto: {} as any,
+    };
+
+    vi.spyOn(loteRepository, "findById").mockResolvedValue(existingLote);
+
+    const novaDataValidadeStr = dayjs().add(25, "day").format("YYYY-MM-DD");
+    const novaDataValidadeDate = dayjs(novaDataValidadeStr).toDate();
+
+    vi.spyOn(loteRepository, "update").mockResolvedValue({
+      ...existingLote,
+      numeroLote: "L-NEW-2026",
+      quantidade: 25,
+      dataValidade: novaDataValidadeDate,
+      status: "ativo",
+    });
+
+    const result = await loteService.update("lote-1", {
+      numeroLote: "L-NEW-2026",
+      quantidade: 25,
+      dataValidade: novaDataValidadeStr,
+      status: "ativo",
+    });
+
+    expect(result.id).toBe("lote-1");
+    expect(result.numeroLote).toBe("L-NEW-2026");
+    expect(result.quantidade).toBe(25);
+    expect(result.marco).toBe("1_MES");
+    expect(result.urgencia).toBe("ALERTA_1M");
+  });
+
+  it("deve lançar NotFoundError ao tentar atualizar lote inexistente", async () => {
+    vi.spyOn(loteRepository, "findById").mockResolvedValue(null);
+
+    await expect(
+      loteService.update("lote-inexistente", {
+        quantidade: 5,
+      })
+    ).rejects.toThrow("Lote não encontrado para atualização.");
+  });
 });

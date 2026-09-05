@@ -137,7 +137,12 @@ export class LoteService {
     }
 
     const updateData: UpdateLoteDTO = {
-      numeroLote: data.numeroLote,
+      numeroLote:
+        data.numeroLote !== undefined
+          ? data.numeroLote
+            ? data.numeroLote.trim()
+            : null
+          : undefined,
       quantidade: data.quantidade,
       status: data.status,
     };

@@ -2,13 +2,14 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Lote } from "@/types/index";
-import { Calendar, CheckCircle2, PackageCheck, Trash2 } from "lucide-react-native";
+import { Calendar, CheckCircle2, Edit3, PackageCheck, Trash2 } from "lucide-react-native";
 
 interface LoteCardProps {
   lote: Lote;
   onPress?: () => void;
   onBaixaPress?: () => void;
   onDeletePress?: () => void;
+  onEditPress?: () => void;
 }
 
 export const LoteCard: React.FC<LoteCardProps> = ({
@@ -16,6 +17,7 @@ export const LoteCard: React.FC<LoteCardProps> = ({
   onPress,
   onBaixaPress,
   onDeletePress,
+  onEditPress,
 }) => {
   const getBadgeStyle = () => {
     switch (lote.marco) {
@@ -105,6 +107,17 @@ export const LoteCard: React.FC<LoteCardProps> = ({
         </View>
 
         <View style={styles.actionsRow}>
+          {onEditPress && (
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={onEditPress}
+              activeOpacity={0.7}
+              accessibilityLabel="Editar lote"
+            >
+              <Edit3 size={16} color={Colors.primary} />
+            </TouchableOpacity>
+          )}
+
           {onBaixaPress && lote.status === "ativo" && (
             <TouchableOpacity
               style={styles.baixaButton}
@@ -234,6 +247,15 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: Colors.primary,
     marginLeft: 6,
+  },
+  editButton: {
+    backgroundColor: "#FDF4E2",
+    padding: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "rgba(212, 139, 6, 0.3)",
+    alignItems: "center",
+    justifyContent: "center",
   },
   deleteButton: {
     backgroundColor: "#FEECEB",

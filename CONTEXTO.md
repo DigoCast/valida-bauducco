@@ -234,3 +234,11 @@ model DispositivoToken {
   - [x] 12.4: Migração e inicialização de novo projeto no EAS Build (`valida-cb`), configuração de `appVersionSource: remote` e salvamento do novo `projectId` (`689131b5-3a02-47a7-835a-c70de683877a`).
   - [x] 12.5: Geração com sucesso do APK instalável Android autônomo via EAS Build conectado à API em nuvem.
   - [x] 12.6: Suíte de 29 testes do backend e 18 checks do `expo-doctor` 100% aprovados.
+- [x] **Etapa 13: Edição Completa de Lotes Já Lançados (Mobile & Backend)**
+  - [x] 13.1: Validação e expansão da camada de serviço backend com suporte completo a normalização e novos testes unitários (31 testes passando).
+  - [x] 13.2: Integração do método `updateLote` e DTOs na camada de serviço da API mobile (`mobile/src/services/lotes.ts`).
+  - [x] 13.3: Criação do componente reutilizável e responsivo `EditarLoteModal` com validação de data (`DD/MM/AAAA` e `AAAA-MM-DD`), quantidade mínima, identificador do lote, seletor de status e feedback tátil (`expo-haptics`).
+  - [x] 13.4: Atualização do `LoteCard` com botão dedicado de edição rápida e acionamento direto via ícone.
+  - [x] 13.5: Integração da opção "Alterar Dados do Lote" no modal de ações de lote (`BaixaModal`).
+  - [x] 13.6: Integração ponta a ponta na tela de **Dashboard** (`index.tsx`) e de **Detalhes do Produto** (`produto/[id].tsx`), com sincronização imediata de estado.
+  - [x] 13.7: Validação de 100% dos tipos TypeScript sem erros e aprovação de 18/18 checks no `expo-doctor`.

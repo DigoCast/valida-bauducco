@@ -1,4 +1,4 @@
-﻿import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -14,6 +14,7 @@ import { LoteCard } from "@/components/LoteCard";
 import { BaixaModal } from "@/components/BaixaModal";
 import { NovoLoteModal } from "@/components/NovoLoteModal";
 import { EditarProdutoModal } from "@/components/EditarProdutoModal";
+import { EditarLoteModal } from "@/components/EditarLoteModal";
 import { CustomButton } from "@/components/CustomButton";
 import { getProdutoById } from "@/services/produtos";
 import { createLote, darBaixaLote, deleteLote } from "@/services/lotes";
@@ -62,7 +63,9 @@ export default function ProdutoDetalhesScreen() {
   const [novoLoteVisible, setNovoLoteVisible] = useState(false);
   const [baixaModalVisible, setBaixaModalVisible] = useState(false);
   const [editarProdutoVisible, setEditarProdutoVisible] = useState(false);
+  const [editarLoteVisible, setEditarLoteVisible] = useState(false);
   const [loteParaBaixa, setLoteParaBaixa] = useState<Lote | null>(null);
+  const [loteParaEditar, setLoteParaEditar] = useState<Lote | null>(null);
 
   const fetchProduto = useCallback(async (isSilent = false) => {
     if (!id) return;
@@ -90,6 +93,11 @@ export default function ProdutoDetalhesScreen() {
   const handleOpenBaixa = (lote: Lote) => {
     setLoteParaBaixa(lote);
     setBaixaModalVisible(true);
+  };
+
+  const handleOpenEditarLote = (lote: Lote) => {
+    setLoteParaEditar(lote);
+    setEditarLoteVisible(true);
   };
 
   const handleConfirmBaixa = async (status: "vendido" | "descartado") => {
@@ -293,6 +301,7 @@ export default function ProdutoDetalhesScreen() {
               lote={{ ...lote, produto }}
               onBaixaPress={() => handleOpenBaixa({ ...lote, produto })}
               onDeletePress={() => handleDeleteLote({ ...lote, produto })}
+              onEditPress={() => handleOpenEditarLote({ ...lote, produto })}
             />
           ))
         )}
@@ -334,6 +343,25 @@ export default function ProdutoDetalhesScreen() {
               }
             : undefined
         }
+        onEdit={() => loteParaBaixa && handleOpenEditarLote(loteParaBaixa)}
+      />
+
+      <EditarLoteModal
+        visible={editarLoteVisible}
+        lote={loteParaEditar}
+        onClose={() => setEditarLoteVisible(false)}
+        onSuccess={(loteAtualizado) => {
+          setProduto((prev) => {
+            if (!prev) return null;
+            return {
+              ...prev,
+              lotes: (prev.lotes || []).map((l) =>
+                l.id === loteAtualizado.id ? { ...l, ...loteAtualizado } : l
+              ),
+            };
+          });
+          fetchProduto(true);
+        }}
       />
     </View>
   );

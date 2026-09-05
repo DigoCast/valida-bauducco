@@ -15,6 +15,7 @@ import { Header } from "@/components/Header";
 import { MetricCard } from "@/components/MetricCard";
 import { LoteCard } from "@/components/LoteCard";
 import { BaixaModal } from "@/components/BaixaModal";
+import { EditarLoteModal } from "@/components/EditarLoteModal";
 import { Colors } from "@/constants/colors";
 import { useAuth } from "@/contexts/AuthContext";
 import { darBaixaLote, deleteLote, getDashboard } from "@/services/lotes";
@@ -44,6 +45,10 @@ export default function DashboardScreen() {
   // Estado do modal de baixa
   const [loteParaBaixa, setLoteParaBaixa] = useState<Lote | null>(null);
   const [modalBaixaVisible, setModalBaixaVisible] = useState(false);
+
+  // Estado do modal de edição de lote
+  const [loteParaEditar, setLoteParaEditar] = useState<Lote | null>(null);
+  const [modalEditarLoteVisible, setModalEditarLoteVisible] = useState(false);
 
   const fetchDashboard = useCallback(async () => {
     if (!user) return;
@@ -77,6 +82,11 @@ export default function DashboardScreen() {
   const handleOpenBaixa = (lote: Lote) => {
     setLoteParaBaixa(lote);
     setModalBaixaVisible(true);
+  };
+
+  const handleOpenEditarLote = (lote: Lote) => {
+    setLoteParaEditar(lote);
+    setModalEditarLoteVisible(true);
   };
 
   const handleConfirmBaixa = async (status: "vendido" | "descartado") => {
@@ -294,6 +304,7 @@ export default function DashboardScreen() {
                 }
                 onBaixaPress={() => handleOpenBaixa(lote)}
                 onDeletePress={() => handleDeleteLote(lote)}
+                onEditPress={() => handleOpenEditarLote(lote)}
               />
             ))
           )}
@@ -313,6 +324,25 @@ export default function DashboardScreen() {
               }
             : undefined
         }
+        onEdit={() => loteParaBaixa && handleOpenEditarLote(loteParaBaixa)}
+      />
+
+      <EditarLoteModal
+        visible={modalEditarLoteVisible}
+        lote={loteParaEditar}
+        onClose={() => setModalEditarLoteVisible(false)}
+        onSuccess={(loteAtualizado) => {
+          setData((prev) => {
+            if (!prev) return null;
+            return {
+              ...prev,
+              lotes: prev.lotes.map((l) =>
+                l.id === loteAtualizado.id ? { ...l, ...loteAtualizado } : l
+              ),
+            };
+          });
+          fetchDashboard();
+        }}
       />
     </View>
   );

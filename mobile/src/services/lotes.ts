@@ -8,6 +8,13 @@ export interface CreateLoteDTO {
   quantidade: number;
 }
 
+export interface UpdateLoteDTO {
+  numeroLote?: string | null;
+  dataValidade?: string; // YYYY-MM-DD
+  quantidade?: number;
+  status?: "ativo" | "vendido" | "descartado";
+}
+
 export async function getDashboard(): Promise<DashboardResponse> {
   const response = await api.get<DashboardResponse>("/api/lotes/dashboard");
   return response.data;
@@ -15,6 +22,11 @@ export async function getDashboard(): Promise<DashboardResponse> {
 
 export async function createLote(data: CreateLoteDTO): Promise<Lote> {
   const response = await api.post<{ message: string; lote: Lote }>("/api/lotes", data);
+  return response.data.lote;
+}
+
+export async function updateLote(id: string, data: UpdateLoteDTO): Promise<Lote> {
+  const response = await api.put<{ message: string; lote: Lote }>(`/api/lotes/${id}`, data);
   return response.data.lote;
 }
 

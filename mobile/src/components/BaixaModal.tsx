@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Colors } from "@/constants/colors";
 import { Lote } from "@/types/index";
-import { CheckCircle2, Trash2, X } from "lucide-react-native";
+import { CheckCircle2, Edit3, Trash2, X } from "lucide-react-native";
 import * as Haptics from "expo-haptics";
 
 interface BaixaModalProps {
@@ -20,6 +20,7 @@ interface BaixaModalProps {
   onClose: () => void;
   onConfirm: (status: "vendido" | "descartado") => Promise<void>;
   onDelete?: () => Promise<void>;
+  onEdit?: () => void;
 }
 
 export const BaixaModal: React.FC<BaixaModalProps> = ({
@@ -28,6 +29,7 @@ export const BaixaModal: React.FC<BaixaModalProps> = ({
   onClose,
   onConfirm,
   onDelete,
+  onEdit,
 }) => {
   const [loadingAction, setLoadingAction] = useState<"vendido" | "descartado" | "excluir" | null>(
     null
@@ -145,6 +147,23 @@ export const BaixaModal: React.FC<BaixaModalProps> = ({
                   )}
                 </TouchableOpacity>
 
+                {onEdit && (
+                  <TouchableOpacity
+                    style={[styles.actionBtn, styles.editBtn]}
+                    onPress={() => {
+                      onClose();
+                      onEdit();
+                    }}
+                    disabled={loadingAction !== null}
+                    activeOpacity={0.8}
+                  >
+                    <Edit3 size={20} color={Colors.primary} />
+                    <Text style={[styles.actionBtnText, { color: Colors.secondary }]}>
+                      Alterar Dados do Lote
+                    </Text>
+                  </TouchableOpacity>
+                )}
+
                 {onDelete && (
                   <TouchableOpacity
                     style={[styles.actionBtn, styles.deleteBtn]}
@@ -242,6 +261,11 @@ const styles = StyleSheet.create({
   },
   descartadoBtn: {
     backgroundColor: Colors.warning,
+  },
+  editBtn: {
+    backgroundColor: "#FDF4E2",
+    borderWidth: 1,
+    borderColor: "rgba(212, 139, 6, 0.4)",
   },
   deleteBtn: {
     backgroundColor: "#FEECEB",
