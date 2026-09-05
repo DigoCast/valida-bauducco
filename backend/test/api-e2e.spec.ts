@@ -8,15 +8,40 @@ describe("E2E - Fluxo Completo da API ValidaCB (5 Marcos de Validade)", () => {
   let produtoId = "";
   let lote3DiasId = "";
 
+  const testEan = "7891000100101";
+  const testEmail = "teste.e2e@validacb.com.br";
+  const testToken = "ExponentPushToken[SampleTestToken1234567890]";
+
+  async function cleanupTestData() {
+    try {
+      await prisma.lote.deleteMany({
+        where: {
+          produto: { codigoBarras: testEan },
+        },
+      });
+      await prisma.produto.deleteMany({
+        where: { codigoBarras: testEan },
+      });
+      await prisma.usuario.deleteMany({
+        where: { email: testEmail },
+      });
+      await prisma.dispositivoToken.deleteMany({
+        where: { token: testToken },
+      });
+    } catch {
+      // Ignora eventuais erros de limpeza se os dados ainda não existirem
+    }
+  }
+
   beforeAll(async () => {
     await app.ready();
-    // Limpa dados de teste prévios se existirem
-    await prisma.lote.deleteMany();
-    await prisma.produto.deleteMany();
-    await prisma.usuario.deleteMany({ where: { email: "teste.e2e@validacb.com.br" } });
+    // Limpa APENAS dados de teste prévios (nunca apaga dados reais de usuários)
+    await cleanupTestData();
   });
 
   afterAll(async () => {
+    // Remove os dados criados exclusivamente por este teste ao finalizar
+    await cleanupTestData();
     await app.close();
   });
 
@@ -187,14 +212,14 @@ describe("E2E - Fluxo Completo da API ValidaCB (5 Marcos de Validade)", () => {
 
     expect(response.statusCode).toBe(200);
     const body = response.json();
-    expect(body.metricas.totalCriticos3Dias).toBe(1);
-    expect(body.metricas.totalAlerta10Dias).toBe(1);
-    expect(body.metricas.totalAlerta20Dias).toBe(1);
-    expect(body.metricas.totalAlerta1Mes).toBe(1);
-    expect(body.metricas.totalAlerta2Meses).toBe(1);
-    expect(body.metricas.totalLotesAtivos).toBe(5);
-    expect(body.metricas.totalQuantidadeItens).toBe(100);
-    expect(body.lotes).toHaveLength(5);
+    expect(body.metricas.totalCriticos3Dias).toBeGreaterThanOrEqual(1);
+    expect(body.metricas.totalAlerta10Dias).toBeGreaterThanOrEqual(1);
+    expect(body.metricas.totalAlerta20Dias).toBeGreaterThanOrEqual(1);
+    expect(body.metricas.totalAlerta1Mes).toBeGreaterThanOrEqual(1);
+    expect(body.metricas.totalAlerta2Meses).toBeGreaterThanOrEqual(1);
+    expect(body.metricas.totalLotesAtivos).toBeGreaterThanOrEqual(5);
+    expect(body.metricas.totalQuantidadeItens).toBeGreaterThanOrEqual(100);
+    expect(body.lotes.some((l: any) => l.id === lote3DiasId)).toBe(true);
   });
 
   it("7. Deve dar baixa no lote crítico (3 dias) marcando como vendido", async () => {
@@ -211,15 +236,14 @@ describe("E2E - Fluxo Completo da API ValidaCB (5 Marcos de Validade)", () => {
     const body = response.json();
     expect(body.lote.status).toBe("vendido");
 
-    // Verifica que o dashboard agora tem 0 críticos de 3 dias e 4 lotes ativos
+    // Verifica que o dashboard não contém mais esse lote específico como ativo
     const dashResp = await app.inject({
       method: "GET",
       url: "/api/lotes/dashboard",
       headers: { authorization: `Bearer ${authToken}` },
     });
 
-    expect(dashResp.json().metricas.totalCriticos3Dias).toBe(0);
-    expect(dashResp.json().metricas.totalLotesAtivos).toBe(4);
+    expect(dashResp.json().lotes.some((l: any) => l.id === lote3DiasId)).toBe(false);
   });
 
   it("8. Deve registrar um token de dispositivo para push notification", async () => {
