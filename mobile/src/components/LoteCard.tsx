@@ -40,6 +40,18 @@ export const LoteCard: React.FC<LoteCardProps> = ({
 
   const badgeTheme = getBadgeStyle();
 
+  const dataValidadeExibicao =
+    lote.dataFormatada && /^\d{2}\/\d{2}\/\d{4}$/.test(lote.dataFormatada)
+      ? lote.dataFormatada
+      : (() => {
+          const ymd = lote.dataValidade ? lote.dataValidade.slice(0, 10) : "";
+          if (/^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
+            const [ano, mes, dia] = ymd.split("-");
+            return `${dia}/${mes}/${ano}`;
+          }
+          return lote.dataFormatada || "—";
+        })();
+
   return (
     <TouchableOpacity
       style={styles.card}
@@ -90,7 +102,7 @@ export const LoteCard: React.FC<LoteCardProps> = ({
               style={styles.detailText}
               maxFontSizeMultiplier={1.2}
             >
-              Validade: <Text style={styles.boldText}>{lote.dataFormatada}</Text>
+              Validade: <Text style={styles.boldText}>{dataValidadeExibicao}</Text>
             </Text>
           </View>
 

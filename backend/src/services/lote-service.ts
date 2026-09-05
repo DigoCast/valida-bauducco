@@ -32,7 +32,8 @@ export class LoteService {
       throw new NotFoundError("Produto informado não foi encontrado para vincular o lote.");
     }
 
-    const dataValidadeObj = dayjs.tz(data.dataValidade, "YYYY-MM-DD", "America/Sao_Paulo").toDate();
+    const [ano, mes, dia] = data.dataValidade.split("-").map(Number);
+    const dataValidadeObj = new Date(Date.UTC(ano, mes - 1, dia, 0, 0, 0));
 
     const lote = await this.loteRepository.create({
       produtoId: data.produtoId,
@@ -148,9 +149,8 @@ export class LoteService {
     };
 
     if (data.dataValidade) {
-      updateData.dataValidade = dayjs
-        .tz(data.dataValidade, "YYYY-MM-DD", "America/Sao_Paulo")
-        .toDate();
+      const [ano, mes, dia] = data.dataValidade.split("-").map(Number);
+      updateData.dataValidade = new Date(Date.UTC(ano, mes - 1, dia, 0, 0, 0));
     }
 
     const updated = await this.loteRepository.update(id, updateData);

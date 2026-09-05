@@ -51,7 +51,13 @@ export const EditarLoteModal: React.FC<EditarLoteModalProps> = ({
       if (lote.dataFormatada && /^\d{2}\/\d{2}\/\d{4}$/.test(lote.dataFormatada)) {
         dataInicial = lote.dataFormatada;
       } else if (lote.dataValidade) {
-        dataInicial = dayjs(lote.dataValidade).format("DD/MM/YYYY");
+        const ymd = lote.dataValidade.slice(0, 10);
+        if (/^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
+          const [ano, mes, dia] = ymd.split("-");
+          dataInicial = `${dia}/${mes}/${ano}`;
+        } else {
+          dataInicial = dayjs(lote.dataValidade).format("DD/MM/YYYY");
+        }
       }
 
       setDataValidade(dataInicial);

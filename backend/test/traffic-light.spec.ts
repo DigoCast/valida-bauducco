@@ -94,4 +94,11 @@ describe("Semáforo de Criticidade de Vencimento com 5 Marcos (Traffic Light)", 
 
     expect(resultado.dataFormatada).toBe("25/12/2026");
   });
+
+  it("deve formatar a data corretamente mesmo quando fornecida como Date UTC pura (ex: do Prisma)", () => {
+    const prismaDate = new Date("2026-10-17T00:00:00.000Z");
+    const resultado = calcularCriticidadeValidade(prismaDate, dataReferencia);
+
+    expect(resultado.dataFormatada).toBe("17/10/2026");
+  });
 });

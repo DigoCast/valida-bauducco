@@ -42,7 +42,14 @@ export function calcularCriticidadeValidade(
   dataReferencia: Date | string = new Date()
 ): InfoCriticidade {
   const hoje = dayjs(dataReferencia).tz().startOf("day");
-  const validade = dayjs(dataValidade).tz().startOf("day");
+
+  // Extrai com segurança a data de calendário YYYY-MM-DD sem distorção de fuso horário UTC
+  const dateStr =
+    typeof dataValidade === "string"
+      ? dataValidade.slice(0, 10)
+      : dataValidade.toISOString().slice(0, 10);
+
+  const validade = dayjs.tz(dateStr, "YYYY-MM-DD", "America/Sao_Paulo").startOf("day");
 
   const diasRestantes = validade.diff(hoje, "day");
   const estaVencido = diasRestantes < 0;

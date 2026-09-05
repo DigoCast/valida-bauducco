@@ -37,6 +37,18 @@ export const BaixaModal: React.FC<BaixaModalProps> = ({
 
   if (!lote) return null;
 
+  const dataValidadeExibicao =
+    lote.dataFormatada && /^\d{2}\/\d{2}\/\d{4}$/.test(lote.dataFormatada)
+      ? lote.dataFormatada
+      : (() => {
+          const ymd = lote.dataValidade ? lote.dataValidade.slice(0, 10) : "";
+          if (/^\d{4}-\d{2}-\d{2}$/.test(ymd)) {
+            const [ano, mes, dia] = ymd.split("-");
+            return `${dia}/${mes}/${ano}`;
+          }
+          return lote.dataFormatada || "—";
+        })();
+
   const handleAction = async (status: "vendido" | "descartado") => {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -101,7 +113,7 @@ export const BaixaModal: React.FC<BaixaModalProps> = ({
                   {lote.produto?.nome || "Produto"}
                 </Text>
                 <Text style={styles.productDetails}>
-                  Validade: {lote.dataFormatada} • Qtd: {lote.quantidade} un
+                  Validade: {dataValidadeExibicao} • Qtd: {lote.quantidade} un
                 </Text>
                 {lote.numeroLote && (
                   <Text style={styles.productDetails}>
